@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="index :: menu"></div>
+<div class="container">
+    <div class="p-3 m-0 border-0 bd-example m-0 border-0">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-primary" th:href="@{/livros/new}">Novo</a>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form th:action="@{/livros}" method="get">
+                <div class="input-group">
+                    <input type="text"
+                           name="titulo"
+                           class="form-control"
+                           placeholder="Digite parte do título do livro..."
+                           th:value="${tituloPesquisado}" />
+
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+
+                    <a th:href="@{/livros}" class="btn btn-outline-secondary" th:if="${tituloPesquisado != null}">
+                        Limpar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>ISBN</th>
+            <th>Ano de Publicação</th>
+            <th>Autor</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="livro : ${livros}">
+            <td th:text="${livro.id}">id</td>
+            <td th:text="${livro.titulo}">Titulo</td>
+            <td th:text="${livro.isbn}">ISBN</td>
+            <td th:text="${livro.anoPublicacao}">Ano Publicação</td>
+            <td th:text="${livro.autor?.nome}">Autor</td>
+            <td>
+                <a class="btn btn-outline-success"
+                   th:href="@{'/livros/alterar/' + ${livro.id}}">Editar</a>
+                <a class="btn btn-outline-danger"
+                   th:href="@{'/livros/remover/' + ${livro.id}}">Remover</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+</html>
